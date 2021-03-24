@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.1082
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Intro", "Intro\Intro.vcxproj", "{3D8874F6-0DCD-4227-AD37-887C50A22D5F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BMW", "BMW\BMW.vcxproj", "{71B55CBD-4409-416E-BC68-C9F454E89644}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{3D8874F6-0DCD-4227-AD37-887C50A22D5F}.Release|x64.Build.0 = Release|x64
 		{3D8874F6-0DCD-4227-AD37-887C50A22D5F}.Release|x86.ActiveCfg = Release|Win32
 		{3D8874F6-0DCD-4227-AD37-887C50A22D5F}.Release|x86.Build.0 = Release|Win32
+		{71B55CBD-4409-416E-BC68-C9F454E89644}.Debug|x64.ActiveCfg = Debug|x64
+		{71B55CBD-4409-416E-BC68-C9F454E89644}.Debug|x64.Build.0 = Debug|x64
+		{71B55CBD-4409-416E-BC68-C9F454E89644}.Debug|x86.ActiveCfg = Debug|Win32
+		{71B55CBD-4409-416E-BC68-C9F454E89644}.Debug|x86.Build.0 = Debug|Win32
+		{71B55CBD-4409-416E-BC68-C9F454E89644}.Release|x64.ActiveCfg = Release|x64
+		{71B55CBD-4409-416E-BC68-C9F454E89644}.Release|x64.Build.0 = Release|x64
+		{71B55CBD-4409-416E-BC68-C9F454E89644}.Release|x86.ActiveCfg = Release|Win32
+		{71B55CBD-4409-416E-BC68-C9F454E89644}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

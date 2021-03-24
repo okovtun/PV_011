@@ -28,6 +28,29 @@ public:
 	{
 		this->y = y;
 	}
+
+	//			Constructors:
+	Point()
+	{
+		x = y = 0;
+		cout << "DefConstructor:\t" << this << endl;
+	}
+	Point(double x, double y)
+	{
+		this->x = x;
+		this->y = y;
+		cout << "Constructor:\t" << this << endl;
+	}
+	~Point()
+	{
+		cout << "Destructor:\t" << this << endl;
+	}
+
+	//			Methods
+	void print()const
+	{
+		cout << "X = " << x << tab << "Y = " << y << endl;
+	}
 };
 //Создавая структуру или класс мы создаем новый тип данных
 //			CLASS - это тип данных
@@ -39,9 +62,12 @@ void function(Point* p)
 	cout << p->get_x() << tab << p->get_y() << endl;
 }
 
+//#define INTRO
+
 void main()
 {
 	setlocale(LC_ALL, "");
+#ifdef INTRO
 	//type name;
 	int a;	//Объявляем переменную 'a' типа 'int' 
 	Point A;//Объявляем переменную 'A' типа 'Point'
@@ -56,6 +82,19 @@ void main()
 	//cout << (*pA).x << tab << (*pA).y << endl;
 	cout << sizeof(A) << endl;
 	cout << sizeof(pA) << endl;
+
+	{
+		//Безымяная область видимости внутри функции main().
+		//Class obj;
+	}
+	//Здесь объекта obj уже не будет  
+#endif // INTRO
+
+	Point A;	//Default constructor
+	A.print();
+	//Single argument constructor
+	Point B(2, 3);
+	B.print();
 }
 
 /*
@@ -78,4 +117,15 @@ this - Указатель на объект для которого вызыва
 	set (задать, установить) - дают доступ на запись
 2. Inheritance;
 3. Polymorphism;
+*/
+
+/*
+	Constructor - это метод, который создает объект, а именно выделяет память под объект, и инициализирует его поля;
+	Destructor  - это метод, который уничтожает объект по истечении его времени жизни;
+	~ - tilda
+	operator = ;
+
+	Default constructor - это конструктор, который может быть вызван без параметров.
+	Это иожет быть конструктор без параметров, или же конструктор с параметрами,
+	каждый параметр которого имеет значение по умолчанию.
 */
