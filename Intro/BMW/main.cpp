@@ -93,4 +93,7 @@ void main()
 	cout << delimiter << endl;
 	Car car3;	//Default constructor
 	car3.info();
+	cout << delimiter << endl;
+	Car car4 = car2;
+	car4.info();
 }
