@@ -72,6 +72,37 @@ public:
 		cout << "CopyAssignment:\t" << this << endl;
 		return *this;
 	}
+	Point& operator+=(const Point& other)
+	{
+		this->x += other.x;
+		this->y += other.y;
+		cout << "Operator+=\t" << this << endl;
+		return *this;
+	}
+
+	//			Increment/Decrement
+	Point& operator++()//Prefix increment
+	{
+		this->x++;
+		this->y++;
+		return *this;
+	}
+	Point operator++(int)//Postfix increment
+	{
+		Point old = *this;
+		this->x++;
+		this->y++;
+		return old;
+	}
+
+	/*Point operator+(const Point& other)const
+	{
+		Point result;
+		result.x = this->x + other.x;
+		result.y = this->y + other.y;
+		cout << "Operator + " << this << endl;
+		return result;
+	}*/
 
 	//			Methods
 	void print()const
@@ -84,6 +115,49 @@ public:
 //			STRUCT- это тоже тип данных
 //Объекты класса или структуры являются переменными соответствующего типа.
 
+Point operator+(const Point& left, const Point& right)
+{
+	Point result;	//Default construtor
+	result.set_x(left.get_x() + right.get_x());
+	result.set_y(left.get_y() + right.get_y());
+	cout << "Global plus" << endl;
+	return result;
+}
+
+Point operator-(const Point& left, const Point& right)
+{
+	Point result
+	(
+		left.get_x() - right.get_x(), 
+		left.get_y() - right.get_y()
+	);
+	cout << "Global minus" << endl;
+	return result;
+}
+Point operator*(const Point& left, const Point& right)
+{
+	cout << "Global multiply" << endl;
+	return Point
+	(
+		left.get_x()*right.get_x(),
+		left.get_y()*right.get_y()
+	);
+}
+Point operator/(const Point& left, const Point& right)
+{
+	cout << "Global divide" << endl;
+	return Point
+	(
+		left.get_x()/right.get_x(),
+		left.get_y()/right.get_y()
+	);
+}
+
+ostream& operator<<(ostream& os, const Point& obj)
+{
+	return os << "X = " << obj.get_x() << tab << "Y = " << obj.get_y();
+}
+
 void function(Point* p)
 {
 	cout << p->get_x() << tab << p->get_y() << endl;
@@ -95,6 +169,8 @@ void function(Point obj)
 
 //#define INTRO
 //#define CONSTRUCTORS_CHECK
+//#define ASSIGNMENT_CHECK
+//#define ARITHMETICAL_OPERATORS
 
 void main()
 {
@@ -150,11 +226,66 @@ void main()
 	G = F;	//CopyAssignment (operator=)    
 #endif // CONSTRUCTORS_CHECK
 
+#ifdef ASSIGNMENT_CHECK
 	int a, b, c;
 	a = b = c = 0;
 
 	Point A, B, C;
 	A = B = C = Point();
+#endif
+
+	//			Operators overloading
+	/*
+	--------------------------------------
+	operator@
+	1. Перегрузить можно только существующие операторы:
+		+  - перегружается;
+		++ - перегружается;
+		*  - перегружается;
+		** - НЕ перегружается;
+	2. Не все существующие операторы можно перегрузить.
+	   Не перегружаются:
+	   :: - Scope operator (оператор разрешения видимости);
+	   ?: - Тернарный оператор;
+	   .  - Point operator (оператор прямого доступа);
+	   .* - 
+	   #  - Preprocessor directive
+	   ## - Preprocessor concatenation "Hello" + "World" = "HelloWorld"
+	3. Перегруженные операторы сохраняют приоритет;
+	4. Невозможно переопределить поведение операторов со встроенными типами.
+	
+	Операторы можно перегружать как в классе, так и за классом.
+	--------------------------------------
+	*/
+
+#ifdef ARITHMETICAL_OPERATORS
+	int a = 2;
+	int b = 3;
+	int c = a + b;
+
+	Point A(2, 3);
+	Point B(3, 4);
+	A.print();
+	B.print();
+	Point C = A + B;
+	C.print();
+	(A - B).print();
+	(A*B).print();
+	(A / B).print();
+	A.print();
+	B.print();
+#endif // ARITHMETICAL_OPERATORS
+
+	Point A(2, 3);
+	Point B(3, 4);
+	A += B;	//Неявный вызов оператора
+	A.print();
+	A.operator+=(B);//Явный вызов оператора
+	A.print();
+	operator/(A, B).print();//Явный вызов глобального оператора
+	A++;
+	A.print();
+	cout << A << endl;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 }
 
 /*
