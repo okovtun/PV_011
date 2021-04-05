@@ -8,6 +8,7 @@ using std::endl;
 
 class Fraction;
 Fraction operator*(Fraction left, Fraction right);
+Fraction operator/(Fraction left, Fraction right);
 
 class Fraction
 {
@@ -46,39 +47,57 @@ public:
 		this->integer = 0;
 		this->numerator = 0;
 		this->denominator = 1;
+#ifdef DEBUG
 		cout << "DefaultConstructor:\t" << this << endl;
+#endif // DEBUG
+
 	}
 	Fraction(int integer)
 	{
 		this->integer = integer;
 		this->numerator = 0;
 		this->denominator = 1;
+#ifdef DEBUG
 		cout << "SingleArgumentConstructor:" << this << endl;
+#endif // DEBUG
+
 	}
 	Fraction(int numerator, int denominator)
 	{
 		this->integer = 0;
 		this->numerator = numerator;
 		this->set_denominator(denominator);
+#ifdef DEBUG
 		cout << "Constructor:\t\t" << this << endl;
+#endif // DEBUG
+
 	}
 	Fraction(int integer, int numerator, int denominator)
 	{
 		this->integer = integer;
 		this->numerator = numerator;
 		this->set_denominator(denominator);
+#ifdef DEBUG
 		cout << "Constructor:\t" << this << endl;
+#endif // DEBUG
+
 	}
 	Fraction(const Fraction& other)
 	{
 		this->integer = other.integer;
 		this->numerator = other.numerator;
 		this->denominator = other.denominator;
+#ifdef DEBUG
 		cout << "CopyConstructor:\t" << this << endl;
+#endif // DEBUG
+
 	}
 	~Fraction()
 	{
+#ifdef DEBUG
 		cout << "Destructor:\t" << this << endl;
+#endif // DEBUG
+
 	}
 
 	//			Operators:
@@ -87,7 +106,10 @@ public:
 		this->integer = other.integer;
 		this->numerator = other.numerator;
 		this->denominator = other.denominator;
+#ifdef DEBUG
 		cout << "CopyAssignment:\t" << this << endl;
+#endif // DEBUG
+
 		return *this;
 	}
 	Fraction& operator*=(const Fraction& other)
@@ -96,6 +118,10 @@ public:
 		int b = 3;
 		a = a * b;
 		return *this = *this*other;
+	}
+	Fraction operator/=(const Fraction& other)
+	{
+		return *this = *this / other;
 	}
 
 	/*Fraction operator*(const Fraction& other)const
@@ -132,6 +158,34 @@ public:
 		copy.integer = 0;
 		return copy;*/
 	}
+	Fraction& reduce()
+	{
+		if (numerator == 0)return *this;
+		//https://www.webmath.ru/poleznoe/formules_12_7.php
+		int more, less, rest;
+		//1) Определяем кто больше, числитель или знаменатель
+		if (numerator > denominator)more = numerator, less = denominator;
+		else less = numerator, more = denominator;
+		//2) Вычисляем наибольший общий делитель (НОД - GCD):
+		do
+		{
+			rest = more % less;
+			more = less;
+			less = rest;
+		} while (rest);
+		int GCD = more;	//Greatest Common Divisor - Наибольший общий делитель
+		//3) Сокращаем дробь:
+		numerator /= GCD;
+		denominator /= GCD;
+		return *this;
+	}
+	Fraction inverted()const
+	{
+		Fraction inverted = *this;
+		inverted.to_improper();
+		swap(inverted.numerator, inverted.denominator);//Функция swap меняет местами две переменные
+		return inverted;
+	}
 	void print()const
 	{
 		cout << integer << "(" << numerator << "/" << denominator << ")" << endl;
@@ -151,6 +205,7 @@ Fraction operator+(Fraction left, Fraction right)
 	);
 	result.set_denominator(left.get_denominator()*right.get_denominator());
 	result.to_proper();
+	result.reduce();
 	return result;
 }
 Fraction operator-(Fraction left, Fraction right)
@@ -164,6 +219,7 @@ Fraction operator-(Fraction left, Fraction right)
 		left.get_denominator()*right.get_denominator()
 	);
 	result.to_proper();
+	result.reduce();
 	return result;
 }
 Fraction operator*(Fraction left, Fraction right)
@@ -174,17 +230,18 @@ Fraction operator*(Fraction left, Fraction right)
 	(
 		left.get_numerator()*right.get_numerator(),
 		left.get_denominator()*right.get_denominator()
-	).to_proper();
+	).to_proper().reduce();
 }
 Fraction operator/(Fraction left, Fraction right)
 {
-	left.to_improper();
+	/*left.to_improper();
 	right.to_improper();
 	return Fraction
 	{
 		left.get_numerator()*right.get_denominator(),
 		right.get_numerator()*left.get_denominator()
-	}.to_proper();
+	}.to_proper();*/
+	return left * right.inverted();
 }
 
 ostream& operator<<(ostream& os, const Fraction& obj)
@@ -250,6 +307,13 @@ void main()
 	a *= 3;
 	Fraction A(11, 4);
 	Fraction B(5, 6, 7);
+	cout << A << endl;
+	cout << B << endl;
 	A *= B;
 	cout << A << endl;
+	cout << delimiter << endl;
+	A /= B;
+	cout << delimiter << endl;
+	cout << A << endl;
+	cout << A - A << endl;
 }
