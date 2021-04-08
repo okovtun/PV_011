@@ -90,14 +90,12 @@ public:
 #ifdef DEBUG
 		cout << "CopyConstructor:\t" << this << endl;
 #endif // DEBUG
-
 	}
 	~Fraction()
 	{
 #ifdef DEBUG
 		cout << "Destructor:\t" << this << endl;
 #endif // DEBUG
-
 	}
 
 	//			Operators:
@@ -122,6 +120,19 @@ public:
 	Fraction operator/=(const Fraction& other)
 	{
 		return *this = *this / other;
+	}
+
+	//			Increment/Decrement
+	Fraction& operator++()	//Prefix increment
+	{
+		integer++;
+		return *this;
+	}
+	Fraction operator++(int)
+	{
+		Fraction old = *this;
+		integer++;
+		return old;
 	}
 
 	/*Fraction operator*(const Fraction& other)const
@@ -244,6 +255,25 @@ Fraction operator/(Fraction left, Fraction right)
 	return left * right.inverted();
 }
 
+////////////////////////			Comparison operators			///////////////////////////
+
+bool operator==(Fraction left, Fraction right)
+{
+	left.to_improper();
+	right.to_improper();
+	/*if (left.get_numerator()*right.get_denominator() == right.get_numerator()*left.get_denominator())
+		return true;
+	else
+		return false;*/
+	return left.get_numerator()*right.get_denominator() == right.get_numerator()*left.get_denominator();
+}
+bool operator!=(const Fraction& left, const Fraction& right)
+{
+	return !(left == right);
+}
+
+///////////////////////				  Stream operators				///////////////////////////
+
 ostream& operator<<(ostream& os, const Fraction& obj)
 {
 	if (obj.get_integer())os << obj.get_integer();
@@ -260,6 +290,10 @@ ostream& operator<<(ostream& os, const Fraction& obj)
 #define delimiter "\n--------------------------------------------\n"
 //#define CONSTRUCTORS_CHECK
 //#define ARITHMETICAL_OPERATORS
+//#define COMPAUND_ASSIGNMENTS
+//#define INCREMENT_CHECK
+//#define COMPARISON_OPERATORS
+#define TYPE_CONVERSIONS
 
 void main()
 {
@@ -302,6 +336,7 @@ void main()
 	cout << A / B << endl;
 #endif // ARITHMETICAL_OPERATORS
 
+#ifdef COMPAUND_ASSIGNMENTS
 	double a = 2;
 	double b = 3;
 	a *= 3;
@@ -316,4 +351,62 @@ void main()
 	cout << delimiter << endl;
 	cout << A << endl;
 	cout << A - A << endl;
+#endif // COMPAUND_ASSIGNMENTS
+
+#ifdef INCREMENT_CHECK
+	for (double i = .3; i < 10; i++)
+		cout << i << tab;
+	cout << endl;
+	for (Fraction i(3, 4); i.get_integer() < 10; i++)
+		cout << i << tab;
+	cout << endl;
+#endif // INCREMENT_CHECK
+
+#ifdef COMPARISON_OPERATORS
+	int a = 2;
+	cout << a << endl;
+
+	Fraction A(1, 2);
+	Fraction B(5, 11);
+
+	/*if (A == B)
+		cout << "Дроби равны!" << endl;
+	else
+		cout << "Дроби разные!" << endl;*/
+	cout << delimiter << endl;
+	cout << (A == B) << endl;
+	cout << (A != B) << endl;
+	cout << delimiter << endl;
+	//cout << (Fraction(1, 2) != Fraction(5, 11)) << endl;
+
+	cout << A << endl;
+	cout << B << endl;
+#endif // COMPARISON_OPERATORS
+
+#ifdef TYPE_CONVERSIONS
+
+	//int a = 43;
+	////Явное преобразование - explicit conversion:
+	//cout << (char)a << endl;	//C-like style
+	//cout << char(a) << endl;	//Functional style
+	//
+	////Неявное преобразование - implicit conversion
+	//double b = 3.5;
+	//a + b;//Здесь переменная 'a', типа int неявно преобразуется в 'double', поскольку второй операнд '+' - double
+	//cout << typeid(a + b).name() << endl;
+	////..., possible loss of data
+	////char ==> int
+	////int  ==> double
+
+	int a = 2;		//No conversion
+	double b = 3;	//От меньшего к бОльшему
+	int c = 5.0;	//От бОльшего к меньшему без потери данных
+	int d = 5.2;	//От бОльшего к меньшему с потерей данных
+
+	char e = 43;	//От бОльшего к меньшему без потери данных
+	char f = 555;	//От бОльшего к меньшему с потерей данных
+	//truncation - урезание, усечение
+	cout << f << endl;
+#endif // TYPE_CONVERSIONS
+
 }

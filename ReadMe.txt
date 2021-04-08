@@ -9,8 +9,8 @@ TODO:
 	- void to_improper();//преобразует дробь в неправильную - числитель > знаменателя	DONE
 	- void reduce();	//Сокращает дробь	https://www.webmath.ru/poleznoe/formules_12_7.php
 3. Перегрузить арифметические операторы: +, -, *, /;		DONE
-4. Перегрузить составные присваивания: +=, -=, *=, /=;
-5. Increment/Decrement (++/--);
+4. Перегрузить составные присваивания: +=, -=, *=, /=;		DONE
+5. Increment/Decrement (++/--);								DONE
 6. Перегрузить операторы сравнения: ==, !=, >, <, >=, <=;
 
 http://cplusplus.com/doc/tutorial/typecasting/
