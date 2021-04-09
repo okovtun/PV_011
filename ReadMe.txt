@@ -1,6 +1,10 @@
 ﻿https://github.com/okovtun/PV_011.git
 https://www.youtube.com/watch?v=zMb82o-Ii-A&list=PLeqyOOqxeiIMwmLcO3eRNlHpInInqbfv1&index=1
 
+TOREAD:
+http://cplusplus.com/doc/tutorial/classes2/	MoveMethods
+http://cplusplus.com/doc/tutorial/classes/	UNIFORM INITIALIZATION
+
 TODO:
 Реализовать класс Fraction, описывающий простую дробь. 1/2; 2(3/4)
 1. В классе реализовать все обязательные методы;			TODO:CopyAssignment

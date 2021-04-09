@@ -10,6 +10,8 @@ class Fraction;
 Fraction operator*(Fraction left, Fraction right);
 Fraction operator/(Fraction left, Fraction right);
 
+#define DEBUG	//Отладка
+
 class Fraction
 {
 	int integer;	//Целая часть
@@ -47,12 +49,11 @@ public:
 		this->integer = 0;
 		this->numerator = 0;
 		this->denominator = 1;
-#ifdef DEBUG
+#if defined DEBUG
 		cout << "DefaultConstructor:\t" << this << endl;
 #endif // DEBUG
-
 	}
-	Fraction(int integer)
+	explicit Fraction(int integer)//explicit - явный
 	{
 		this->integer = integer;
 		this->numerator = 0;
@@ -60,7 +61,15 @@ public:
 #ifdef DEBUG
 		cout << "SingleArgumentConstructor:" << this << endl;
 #endif // DEBUG
-
+	}
+	Fraction(double decimal)
+	{
+		decimal += 1e-15;
+		integer = decimal;
+		decimal -= integer;
+		denominator = 1e+9;//1000000000;
+		numerator = decimal * denominator;
+		reduce();
 	}
 	Fraction(int numerator, int denominator)
 	{
@@ -133,6 +142,16 @@ public:
 		Fraction old = *this;
 		integer++;
 		return old;
+	}
+
+	//			Type cast operators:
+	operator int()const
+	{
+		return integer;
+	}
+	explicit operator double()const
+	{
+		return integer + (double)numerator / denominator;
 	}
 
 	/*Fraction operator*(const Fraction& other)const
@@ -398,15 +417,39 @@ void main()
 	////char ==> int
 	////int  ==> double
 
-	int a = 2;		//No conversion
-	double b = 3;	//От меньшего к бОльшему
-	int c = 5.0;	//От бОльшего к меньшему без потери данных
-	int d = 5.2;	//От бОльшего к меньшему с потерей данных
+	//int a = 2;		//No conversion
+	//double b = 3;	//От меньшего к бОльшему
+	//int c = 5.0;	//От бОльшего к меньшему без потери данных
+	//int d = 5.2;	//От бОльшего к меньшему с потерей данных
 
-	char e = 43;	//От бОльшего к меньшему без потери данных
-	char f = 555;	//От бОльшего к меньшему с потерей данных
-	//truncation - урезание, усечение
-	cout << f << endl;
+	//char e = 43;	//От бОльшего к меньшему без потери данных
+	//char f = 555;	//От бОльшего к меньшему с потерей данных
+	////truncation - урезание, усечение
+	//cout << f << endl;
+
+	//Fraction A = (Fraction)5;		//From int to Fraction - Single Argument Constructor
+	Fraction A(5);	//explicit Constructor можно вызвать только так, и невозможно вызвать оператором =
+	cout << A << endl;
+	A = (Fraction)8;	//CopyAssignment
+	cout << A << endl;
+	Fraction B(3, 4, 5);
+	double b = B;		
+	cout << b << endl;
+	.3;
+	double c = 2.53698798798798709218403298403284456;
+	Fraction C = 2.55;
+	cout << C << endl;
+	cout << UINT_MAX << endl;
 #endif // TYPE_CONVERSIONS
 
 }
+
+/*
+		TYPE CAST OPERATOR SYNTAX
+operator type()
+{
+	.....
+	.....
+	return ...;
+}
+*/
