@@ -38,44 +38,52 @@ public:
 	{
 		this->numerator = numerator;
 	}
-	void set_denominator(int denominator)
+	int set_denominator(int denominator)
 	{
 		if (denominator == 0)denominator = 1;
 		this->denominator = denominator;
+		return this->denominator;
 	}
 	//				Constructors:
-	Fraction()
+	Fraction():integer(0), numerator(0), denominator(1)
 	{
-		this->integer = 0;
+		/*this->integer = 0;
 		this->numerator = 0;
-		this->denominator = 1;
+		this->denominator = 1;*/
 #if defined DEBUG
 		cout << "DefaultConstructor:\t" << this << endl;
 #endif // DEBUG
 	}
-	explicit Fraction(int integer)//explicit - явный
+	explicit Fraction(int integer):integer(integer), numerator(0), denominator(1)
+		//explicit - явный
 	{
-		this->integer = integer;
+		/*this->integer = integer;
 		this->numerator = 0;
-		this->denominator = 1;
+		this->denominator = 1;*/
 #ifdef DEBUG
 		cout << "SingleArgumentConstructor:" << this << endl;
 #endif // DEBUG
 	}
-	Fraction(double decimal)
+	Fraction(double decimal):
+		integer(decimal), 
+		denominator(1e+9)
+		//,numerator(denominator*((decimal-=integer)+=1e-15))
 	{
 		decimal += 1e-15;
-		integer = decimal;
+		//integer = decimal;
 		decimal -= integer;
-		denominator = 1e+9;//1000000000;
+		//denominator = 1e+9;//1000000000;
 		numerator = decimal * denominator;
 		reduce();
 	}
-	Fraction(int numerator, int denominator)
+	Fraction(int numerator, int denominator):
+		integer(0),
+		numerator(numerator),
+		denominator(set_denominator(denominator))
 	{
-		this->integer = 0;
+		/*this->integer = 0;
 		this->numerator = numerator;
-		this->set_denominator(denominator);
+		this->set_denominator(denominator);*/
 #ifdef DEBUG
 		cout << "Constructor:\t\t" << this << endl;
 #endif // DEBUG
@@ -439,6 +447,14 @@ void main()
 	double c = 2.53698798798798709218403298403284456;
 	Fraction C = 2.55;
 	cout << C << endl;
+	cout << Fraction(2, 3, 4).to_improper() << endl;
+	{
+		cout << delimiter << endl;
+		Fraction A(123, 234, 456);
+		cout << A << endl;
+		cout << delimiter << endl;
+	}
+	cout << 5 << endl;
 	cout << UINT_MAX << endl;
 #endif // TYPE_CONVERSIONS
 
