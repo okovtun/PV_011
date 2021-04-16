@@ -29,30 +29,26 @@ public:
 	}
 
 	//			Constructors:
-	String(int size = 80)
+	explicit String(int size = 80) :size(size), str(new char[size] {})
 	{
-		this->size = size;
-		this->str = new char[size] {};
+		//this->size = size;
+		//this->str = new char[size] {};
 		cout << (size == 80 ? "Default" : "Size") << "Constructor:\t" << this << endl;
 	}
-	String(const char* str)
+	String(const char* str) :String(strlen(str)+1)
 	{
-		this->size = strlen(str) + 1;
-		this->str = new char[size] {};
 		strcpy(this->str, str);
 		cout << "Constructor:\t\t" << this << endl;
 	}
-	String(const String& other)
+	String(const String& other) :String(other.str)
 	{
-		this->size = other.size;
-		this->str = new char[size] {};
-		strcpy(this->str, other.str);
+		//strcpy(this->str, other.str);
 		cout << "CopyConstructor:\t" << this << endl;
 	}
-	String(String&& other)
+	String(String&& other):size(other.size), str(other.str)
 	{
-		this->size = other.size;
-		this->str = other.str;
+		//this->size = other.size;
+		//this->str = other.str;
 		other.str = nullptr;
 		cout << "MoveConstructor:\t" << this << endl;
 	}
@@ -111,7 +107,7 @@ public:
 
 String operator+(const String& left, const String& right)
 {
-	String result = left.get_size() + right.get_size() - 1;
+	String result(left.get_size() + right.get_size() - 1);
 	for (int i = 0; i < left.get_size(); i++)
 		//result.get_str()[i] = left.get_str()[i];
 		result[i] = left[i];
@@ -128,6 +124,7 @@ ostream& operator<<(ostream& os, const String& obj)
 
 //#define CONSTRUCTORS_CHECK
 //#define ASSIGNMENT_CHECK
+#define OPERATOR_PLUS_CHECK
 
 void main()
 {
@@ -162,6 +159,7 @@ void main()
 	cout << str2 << endl;
 #endif // ASSIGNMENT_CHECK
 
+#ifdef OPERATOR_PLUS_CHECK
 	String str1 = "Hello";
 	String str2 = "World";
 	cout << delimiter << endl;
@@ -170,8 +168,23 @@ void main()
 	cout << delimiter << endl;
 	cout << str3 << endl;
 
+	String str4 = str3;
+	cout << str4 << endl;
+
 	/*cout << delimiter << endl;
 	str1 += str2;
 	cout << str1 << endl;
 	cout << delimiter << endl;*/
+#endif // OPERATOR_PLUS_CHECK
+
+	//String str1;	//DefaultConstructor
+	//String str2();	//Объявлятся функция str2, которая ничего не принимает,
+	//				//и возвращает значение типа String.
+	//String str3{};	//DefaultConstructor
+	//String str4(5);	//SizeConstructor
+	//String str5{ 8 };
+	//String str6("Hello");
+	//String str7{ "Hello" };
+	//cout << str7 << endl;
+	////String str8 = 16;	//Неявное преобразование int в String
 }

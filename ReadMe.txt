@@ -6,8 +6,9 @@ http://cplusplus.com/doc/tutorial/classes2/	MoveMethods
 http://cplusplus.com/doc/tutorial/classes/	UNIFORM INITIALIZATION
 
 TODO:
-1. В классе String  перегрузить оператор [], и с его помощью упростить оператор +;
-2. Перегрузить оператор +=;
+1. В классе String  перегрузить оператор [], и с его помощью упростить оператор +;DONE
+2. Перегрузить оператор +=;	DONE
+3. Перегрузить оператор ввода: cin >> str;
 
 DONE:
 Реализовать класс Fraction, описывающий простую дробь. 1/2; 2(3/4)
