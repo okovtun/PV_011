@@ -7,6 +7,9 @@ using std::endl;
 
 #define delimiter "\n---------------------------------------------------------\n"
 
+class String;
+String operator+(const String& left, const String& right);
+
 class String
 {
 	char* str;	//”казатель на строки в динамической пам€ти
@@ -46,6 +49,13 @@ public:
 		strcpy(this->str, other.str);
 		cout << "CopyConstructor:\t" << this << endl;
 	}
+	String(String&& other)
+	{
+		this->size = other.size;
+		this->str = other.str;
+		other.str = nullptr;
+		cout << "MoveConstructor:\t" << this << endl;
+	}
 	~String()
 	{
 		delete[] this->str;
@@ -65,6 +75,29 @@ public:
 		strcpy(this->str, other.str);
 		cout << "CopyAssignment:\t\t" << this << endl;
 		return *this;
+	}
+	String& operator=(String&& other)
+	{
+		delete[] this->str;
+		this->size = other.size;
+		this->str = other.str;
+		other.str = nullptr;
+		cout << "MoveAssignment:\t\t" << this << endl;
+		return *this;
+	}
+
+	String& operator+=(const String& other)
+	{
+		return *this = *this + other;
+	}
+
+	const char& operator[](int index)const
+	{
+		return this->str[index];
+	}
+	char& operator[](int index)
+	{
+		return this->str[index];
 	}
 
 	//			Methods:
@@ -132,7 +165,13 @@ void main()
 	String str1 = "Hello";
 	String str2 = "World";
 	cout << delimiter << endl;
-	String str3 = str1 + str2;	//ќператор + будет выполн€ть конкатенацию (сли€ние) строк
+	String str3;
+	str3 = str1 + str2;	//ќператор + будет выполн€ть конкатенацию (сли€ние) строк
 	cout << delimiter << endl;
 	cout << str3 << endl;
+
+	/*cout << delimiter << endl;
+	str1 += str2;
+	cout << str1 << endl;
+	cout << delimiter << endl;*/
 }

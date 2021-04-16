@@ -1,0 +1,6 @@
+MoveMethods
+MoveConstructor
+MoveAssignment
+
+Class(Class&& other);			//MoveConstructor
+Class& operator=(Class&& other);//MoveAssignment
