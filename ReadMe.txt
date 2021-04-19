@@ -6,6 +6,9 @@ http://cplusplus.com/doc/tutorial/classes2/	MoveMethods
 http://cplusplus.com/doc/tutorial/classes/	UNIFORM INITIALIZATION
 
 TODO:
+В ветке separated разделить класс Fraction на файлы.
+
+DONE:
 1. В классе String  перегрузить оператор [], и с его помощью упростить оператор +;
 2. Перегрузить оператор +=;
 
