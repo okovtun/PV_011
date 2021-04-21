@@ -6,6 +6,12 @@ http://cplusplus.com/doc/tutorial/classes2/	MoveMethods
 http://cplusplus.com/doc/tutorial/classes/	UNIFORM INITIALIZATION
 
 TODO:
+В проект Academy добавить:
+1. Класс Teacher;
+2. Класс Graduate - Дипломник;
+Для каждого класса написать проверочный код.
+
+DONE:
 В ветке separated разделить класс Fraction на файлы.
 
 DONE:
