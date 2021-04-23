@@ -20,9 +20,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{5E26B5C0-0AEC-4232-8299-BFF2ADCDE54F}</ProjectGuid>
+    <ProjectGuid>{B5EA0747-A1F0-422F-8123-B8BEFDFDA4C0}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Academy</RootNamespace>
+    <RootNamespace>Abstract</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -144,9 +144,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
