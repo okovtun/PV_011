@@ -11,8 +11,10 @@ http://cplusplus.com/doc/tutorial/classes/	UNIFORM INITIALIZATION
 
 TODO:
 В класс ForwardList добавить методы:
-	void push_back(int Data);
-	void insert(int Data, int index);
+	void erase(int index);
+
+	void push_back(int Data);			DONE
+	void insert(int index, int Data);	DONE
 
 
 
