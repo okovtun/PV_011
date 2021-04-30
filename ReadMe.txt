@@ -11,7 +11,19 @@ http://cplusplus.com/doc/tutorial/classes/	UNIFORM INITIALIZATION
 
 TODO:
 В класс ForwardList добавить методы:
-	void erase(int index);
+1. CopyMethods;
+2. MoveMethods;
+3. Operator+ который выполняет конкатенацию двух списков;
+4. Hardcore: этот проверочный код должен заработать:
+	ForwardList list = { 3, 5, 8, 13, 21 };
+	list.print();
+	for (int i = 0; i < list.get_size(); i++)
+	{
+		cout << list[i] << tab;
+	}
+
+----------------------------------------------------------------------
+	void erase(int index);				DONE
 
 	void push_back(int Data);			DONE
 	void insert(int index, int Data);	DONE
