@@ -4,6 +4,7 @@ using std::cout;
 using std::endl;
 
 #define tab "\t"
+#define delimiter "\n--------------------------------------------------------\n"
 
 class Element
 {
@@ -11,6 +12,15 @@ class Element
 	Element* pNext;	//Pointer to next - Указатель на следующий элемент
 	static int count;
 public:
+	const Element* getpNext()const
+	{
+		return pNext;
+	}
+	int getData()const
+	{
+		return Data;
+	}
+	//				Constructors:
 	Element(int Data, Element* pNext = nullptr) :Data(Data), pNext(pNext)
 	{
 		count++;
@@ -29,6 +39,7 @@ public:
 	}
 
 	friend class ForwardList;
+	friend ForwardList operator+(const ForwardList& left, const ForwardList& right);
 };
 
 int Element::count = 0;	//Инициализация статической переменной
@@ -38,20 +49,74 @@ class ForwardList
 	unsigned int size;
 	Element* Head;	//Указатель на начальный элемент списка
 public:
+	unsigned int get_size()const
+	{
+		return size;
+	}
+	const Element* getHead()const
+	{
+		return Head;
+	}
+	//			Constructors:
 	ForwardList()
 	{
 		this->size = 0;
 		this->Head = nullptr;	//nullptr в Head означает что список пуст.
-		
-		cout << "LConstructor:\t" << this << endl;
 
+		cout << "LConstructor:\t" << this << endl;
+	}
+	ForwardList(const std::initializer_list<int>& il) :ForwardList()
+	{
+		//begin() - возвращает итератор на начало контейнера
+		//end()	  - возвращает итератор на конец контейнера
+		cout << typeid(il.begin()).name() << endl;
+		for (const int* it = il.begin(); it != il.end(); it++)
+		{
+			push_back(*it);
+		}
+		cout << "ILConstructor:\t" << this << endl;
+	}
+	ForwardList(const ForwardList& other) :ForwardList()
+	{
+		for (Element* Temp = other.Head; Temp; Temp = Temp->pNext)
+			push_back(Temp->Data);
+		cout << "LCopyConstructor:" << this << endl;
+	}
+	ForwardList(ForwardList&& other)
+	{
+		this->size = other.size;
+		this->Head = other.Head;
+		other.Head = nullptr;
+		cout << "LMoveConstructor:" << this << endl;
 	}
 	~ForwardList()
 	{
-		while (Head != nullptr)pop_front();
-			//pop_back();//Very sloooowwwww!!!!
+		while (Head)pop_front();
+		//pop_back();//Very sloooowwwww!!!!
 		cout << "LDestructor:\t" << this << endl;
+	}
 
+	//			Operators:
+	ForwardList& operator=(const ForwardList& other)
+	{
+		//0) Проверяем, не является ли список самим собой:
+		if (this == &other)return *this;
+		//1) Очищаем список от старых значений:
+		while (Head)pop_front();
+		//2) Копируем список:
+		for (Element* Temp = other.Head; Temp; Temp = Temp->pNext)
+			push_back(Temp->Data);
+		cout << "LCopyAssignment:\t" << this << endl;
+		return *this;
+	}
+	ForwardList& operator=(ForwardList&& other)
+	{
+		while (Head)pop_front();
+		this->size = other.size;
+		this->Head = other.Head;
+		other.Head = nullptr;
+		cout << "LMoveAssignment:" << this << endl;
+		return *this;
 	}
 
 	//			Adding elements:
@@ -139,8 +204,8 @@ public:
 		}
 		*/
 
-//		for(	Start;			  Stop; Step)....
-		for(Element* Temp = Head; Temp; Temp=Temp->pNext)
+		//		for(	Start;			  Stop; Step)....
+		for (Element* Temp = Head; Temp; Temp=Temp->pNext)
 			cout << Temp << tab << Temp->Data << tab << Temp->pNext << endl;
 		Element* Temp = nullptr;
 		cout << "В списке " << size << " элементов\n";
@@ -148,13 +213,24 @@ public:
 	}
 };
 
+ForwardList operator+(const ForwardList& left, const ForwardList& right)
+{
+	ForwardList cat = left;	//CopyConstructor
+	for (const Element* Temp = right.getHead(); Temp; Temp = Temp->getpNext())
+		cat.push_back(Temp->getData());
+	return cat;
+}
+
 
 //#define BASE_CHECK
+//#define COPY_METHODS_CHECK
+//#define OPERATOR_PLUS_CHECK
+#define HARDCORE
+
 #ifdef BASE_CHECK
 //#define ADDING_ELEMENTS_CHECK
 //#define REMOVING_CHECK  
 #endif // BASE_CHECK
-
 
 void main()
 {
@@ -197,12 +273,58 @@ void main()
 #endif // ADDING_ELEMENTS_CHECK  
 #endif // BASE_CHECK
 
-	/*int arr[] = { 3, 5, 8, 13, 21, 34, 55 };
-	for (int i = 0; i < sizeof(arr) / sizeof(int); i++)
+#ifdef COPY_METHODS_CHECK
+	int n;
+	cout << "Введите размер списка: "; cin >> n;
+	ForwardList list;
+	for (int i = 0; i < n; i++)
+	{
+		list.push_back(rand() % 100);
+	}
+	list = list;
+	list.print();
+	cout << delimiter << endl;;
+	//ForwardList list2 = list;	//CopyConstructor
+	ForwardList list2;	//DefaultConstructor
+	list2 = list;//CopyAssignment (=)
+	list2.print();
+#endif // COPY_METHODS_CHECK
+
+#ifdef OPERATOR_PLUS_CHECK
+	ForwardList list1;
+	list1.push_back(3);
+	list1.push_back(5);
+	list1.push_back(8);
+	list1.push_back(13);
+	list1.push_back(21);
+
+	ForwardList list2;
+	list2.push_back(34);
+	list2.push_back(55);
+	list2.push_back(89);
+	list2.push_back(144);
+
+	////////////////////////////////////////////////////////////
+	cout << delimiter << endl;
+	ForwardList list3;	//DefaultConstructor
+	list3 = list1 + list2;
+	list3.print();
+	cout << delimiter << endl;
+	////////////////////////////////////////////////////////////
+#endif // OPERATOR_PLUS_CHECK
+
+#ifdef HARDCORE
+	int arr[] = { 3, 5, 8, 13, 21, 34, 55 };
+	/*for (int i = 0; i < sizeof(arr) / sizeof(int); i++)
 	{
 		cout << arr[i] << tab;
 	}
 	cout << endl;*/
+	for (int i : arr)
+	{
+		cout << i << tab;
+	}
+	cout << endl;
 
 	ForwardList list = { 3, 5, 8, 13, 21 };
 	list.print();
@@ -210,4 +332,6 @@ void main()
 	{
 		cout << list[i] << tab;
 	}*/
+#endif // HARDCORE
+
 }
