@@ -1,4 +1,5 @@
 ﻿#include<iostream>
+#include<exception>
 using std::cin;
 using std::cout;
 using std::endl;
@@ -37,12 +38,70 @@ public:
 #endif // DEBUG
 
 	}
-
+	friend class Iterator;
 	friend class ForwardList;
 	friend ForwardList operator+(const ForwardList& left, const ForwardList& right);
 };
 
 int Element::count = 0;	//Инициализация статической переменной
+
+class Iterator
+{
+	Element* Temp;
+public:
+	Iterator(Element* Temp = nullptr) :Temp(Temp)
+	{
+#ifdef DEBUG
+		cout << "IConstructor:\t" << this << endl;
+#endif // DEBUG
+	}
+	~Iterator()
+	{
+#ifdef DEBUG
+		cout << "IDestructor:\t" << this << endl;
+#endif // DEBUG
+	}
+
+	//			Operators:
+	Iterator& operator++()
+	{
+		Temp = Temp->pNext;
+		return *this;
+	}
+	Iterator operator++(int)
+	{
+		Iterator old = *this;
+		Temp = Temp->pNext;
+		return old;
+	}
+
+	bool operator==(const Iterator& other)const
+	{
+		return this->Temp == other.Temp;
+	}
+	bool operator!=(const Iterator& other)const
+	{
+		return this->Temp != other.Temp;
+	}
+
+	const int& operator*()const
+	{
+		return Temp->Data;
+	}
+	int& operator*()
+	{
+		return Temp->Data;
+	}
+
+	const Element* operator->()const
+	{
+		return Temp;
+	}
+	Element* operator->()
+	{
+		return Temp;
+	}
+};
 
 class ForwardList
 {
@@ -57,6 +116,15 @@ public:
 	{
 		return Head;
 	}
+
+	Iterator begin()
+	{
+		return Head;
+	}
+	Iterator end()
+	{
+		return nullptr;
+	}
 	//			Constructors:
 	ForwardList()
 	{
@@ -70,9 +138,13 @@ public:
 		//begin() - возвращает итератор на начало контейнера
 		//end()	  - возвращает итератор на конец контейнера
 		cout << typeid(il.begin()).name() << endl;
-		for (const int* it = il.begin(); it != il.end(); it++)
+		/*for (const int* it = il.begin(); it != il.end(); it++)
 		{
 			push_back(*it);
+		}*/
+		for (int i : il)
+		{
+			push_back(i);
 		}
 		cout << "ILConstructor:\t" << this << endl;
 	}
@@ -117,6 +189,15 @@ public:
 		other.Head = nullptr;
 		cout << "LMoveAssignment:" << this << endl;
 		return *this;
+	}
+
+	int& operator[](int index)
+	{
+		if (index >= size)throw std::exception("Out of range");
+		Element* Temp = Head;
+		for (int i = 0; i < index; i++)
+			Temp = Temp->pNext;
+		return Temp->Data;
 	}
 
 	//			Adding elements:
@@ -205,9 +286,13 @@ public:
 		*/
 
 		//		for(	Start;			  Stop; Step)....
-		for (Element* Temp = Head; Temp; Temp=Temp->pNext)
-			cout << Temp << tab << Temp->Data << tab << Temp->pNext << endl;
-		Element* Temp = nullptr;
+		//for (Element* Temp = Head; Temp; /*Temp = Temp->pNext*/Temp++)
+		//	cout << Temp << tab << Temp->Data << tab << Temp->pNext << endl;
+		//Element* Temp = nullptr;
+		for (Iterator Temp = Head; Temp != nullptr; ++Temp)
+			cout << *Temp << tab;
+			//cout /*<< Temp << tab*/ << Temp->Data << tab << Temp->pNext << endl;
+		cout << endl;
 		cout << "В списке " << size << " элементов\n";
 		cout << "Общее количество элементов: " << Element::count << endl;
 	}
@@ -320,18 +405,37 @@ void main()
 		cout << arr[i] << tab;
 	}
 	cout << endl;*/
-	for (int i : arr)
+	/*for (int i : arr)//range-based for
+	{
+		cout << i << tab;
+	}
+	cout << endl;*/
+	cout << sizeof(Element) << endl;
+	ForwardList list = { 3, 5, 8, 13, 21 };
+	//range-based for (Диапазонный фор, фор для контейнера, для структуры данных)
+	for (int i : list)
 	{
 		cout << i << tab;
 	}
 	cout << endl;
-
-	ForwardList list = { 3, 5, 8, 13, 21 };
-	list.print();
-	/*for (int i = 0; i < list.get_size(); i++)
+	//list.print();
+	/*try
 	{
-		cout << list[i] << tab;
+		for (int i = 0; i < list.get_size(); i++)
+		{
+			list[i] = rand() % 100;
+		}
+		for (int i = 0; i < 10; i++)
+		{
+			cout << list[i] << tab;
+		}
+	}
+	catch (std::exception e)	//e - это просто имя параметра
+	{
+		std::cerr << e.what() << endl;	//Метод what() возвращает сообщение об ошибке.
 	}*/
+
+	
 #endif // HARDCORE
 
 }
