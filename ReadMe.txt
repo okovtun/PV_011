@@ -10,13 +10,17 @@ http://cplusplus.com/doc/tutorial/classes/	UNIFORM INITIALIZATION
 ////////////////////////////////////////////////////////////////////////////
 
 TODO:
+Разделить все классы в ForwardList на файлы.
+#pragma once
+
+DONE:
 1. Сделать обращение к элементам списка через []	DONE
 	for (int i = 0; i < list.get_size(); i++)
 	{
 		cout << list[i] << tab;
 	}
 2. Выражение Temp = Temp->pNext заменить на Temp++	DONE
-3. Этот проверочный код должен заработать:
+3. Этот проверочный код должен заработать:			DONE
 	ForwardList list = { 3, 5, 8, 13, 21 };
 	for(int i:list)
 	{
