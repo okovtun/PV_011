@@ -134,7 +134,7 @@ void main()
 	}*/
 
 
-	ForwardList<double> dfl = { 2.5, 2.87, 3.14, 5.9 ,8.2 };
+	ForwardList<double> dfl = { 3.14, 2.5, 2.87, 3.14, 5.9 ,8.2 };
 	for (double i : dfl)cout << i << tab; cout << endl;
 
 	ForwardList<std::string> stih = { "Хорошо", "живет", "на", "свете", "Винни-Пух" };
