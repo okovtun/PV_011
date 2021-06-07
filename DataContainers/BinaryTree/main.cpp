@@ -3,6 +3,8 @@ using namespace std;
 
 #define tab "\t"
 
+#define DEBUG
+
 class Tree
 {
 	class Element
@@ -48,13 +50,32 @@ public:
 	}
 	Tree(const initializer_list<int>& il) :Tree()
 	{
-		
+		cout << typeid(il.begin()).name() << endl;
+		for (int const* it = il.begin(); it != il.end(); it++)
+		{
+			insert(*it);
+		}
+	}
+	Tree(const Tree& other) :Tree()
+	{
+		copy(other.Root);
+		cout << "CopyConstructor:" << this << endl;
 	}
 	~Tree()
 	{
 		clear(Root);
 		cout << "TDestructor:\t" << this << endl;
 	}
+
+	Tree& operator=(const Tree& other)
+	{
+		if (this == &other)return *this;
+		clear();
+		copy(other.Root);
+		cout << "CopyAssignment:\t" << this << endl;
+		return *this;
+	}
+
 	void insert(const int& Data)
 	{
 		insert(Data, this->Root);
@@ -93,6 +114,13 @@ public:
 		clear(Root);
 	}
 private:
+	void copy(Element* Root)
+	{
+		if (Root == nullptr)return;
+		insert(Root->Data);
+		copy(Root->pLeft);
+		copy(Root->pRight);
+	}
 	void insert(const int& Data, Element* Root)	//Здесь Element* Root - это указатель на ветку (поддерево)
 	{
 		if (this->Root == nullptr)this->Root = new Element(Data);
@@ -179,7 +207,7 @@ private:
 	{
 		if (Root == nullptr)return;
 		print(Root->pLeft);
-		cout << Root->Data << tab;
+		cout << Root << tab << Root->Data << endl;;
 		print(Root->pRight);
 	}
 	void clear(Element*& Root)
@@ -198,6 +226,12 @@ void main()
 	int n;	//Количество элементов дерева
 	//cout << "Введите количество элементов: "; cin >> n;
 	Tree tree = {50, 25, 16, 32, 64, 55, 77};
+	tree = tree;
+	tree.print();
+	//Tree tree2 = tree;	//CopyConstructor
+	Tree tree2;
+	tree2 = tree;
+	tree2.print();
 	/*for (int i = 0; i < n; i++)
 	{
 		tree.insert(rand() % 100);
