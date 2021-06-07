@@ -1,0 +1,10 @@
+STL - Standard Template Library 
+      (Стандартная Шаблонная Библиотека).
+Контейнеры;
+Итераторы;
+Алгоритмы;
+
+Контейнер - это объект, который организует хранение других объектов в памяти.
+Sequence containers:	array, vector, deque, list, forward_list;
+Associative containers:	map, set, multimap, multiset;
+Container adaptors:		stack, queue (очередь), priority_queue (очередь с приоритетами)
