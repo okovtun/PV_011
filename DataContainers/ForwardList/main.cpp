@@ -133,6 +133,10 @@ public:
 
 		cout << "LConstructor:\t" << this << endl;
 	}
+	ForwardList(int size) :ForwardList()
+	{
+		while (size--)push_front(0);
+	}
 	ForwardList(const std::initializer_list<int>& il) :ForwardList()
 	{
 		//begin() - возвращает итератор на начало контейнера
@@ -310,7 +314,7 @@ ForwardList operator+(const ForwardList& left, const ForwardList& right)
 //#define BASE_CHECK
 //#define COPY_METHODS_CHECK
 //#define OPERATOR_PLUS_CHECK
-#define HARDCORE
+//#define HARDCORE
 
 #ifdef BASE_CHECK
 //#define ADDING_ELEMENTS_CHECK
@@ -438,4 +442,23 @@ void main()
 	
 #endif // HARDCORE
 
+	int n;
+	cout << "Введите размер списка: "; cin >> n;
+	ForwardList list(n);
+	cout << "Memory allocated" << endl;
+	cout << "Filling list" << endl;
+	/*for (int i = 0; i < list.get_size(); i++)
+	{
+		list[i] = rand() % 100;
+	}*/
+	for (Iterator it = list.begin(); it != list.end(); it++)
+	{
+		*it = rand() % 100;
+	}
+	cout << "List filled" << endl;
+	for (int i = 0; i < 10; i++)
+	{
+		cout << list[i] << tab;
+	}
+	cout << endl;
 }

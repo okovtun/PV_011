@@ -13,8 +13,8 @@ TOREAD:
 http://cplusplus.com/reference/stl/
 
 TODO:
-1. Вызвать метод erase() для Вектора;
-2. Написать функцию reverse_print_vector(), которая выводит вектор в обратном направлении;
+1. Вызвать метод erase() для Вектора;		DONE
+2. Написать функцию reverse_print_vector(), которая выводит вектор в обратном направлении; DONE
 3. Создать объект list, и вставить в него значение по указанному индексу: 
    http://cplusplus.com/reference/list/list/;
 
