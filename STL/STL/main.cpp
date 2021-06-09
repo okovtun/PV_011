@@ -2,17 +2,22 @@
 #include<array>
 #include<vector>
 using namespace std;
+using std::cin;
+using std::cout;
+using std::endl;
 
 #define tab "\t"
 #define delimiter "\n----------------------------------------\n"
 
 //#define STL_ARRAY
-#define STL_VECTOR
+//#define STL_VECTOR
 //#define STL_VECTOR_INSERT
 //#define VECTOR_SWAP
+#define STL_VECTOR_ERASE
 
 template<typename T>void vector_properties(const vector<T>& vec);
 template<typename T>void print_vector(const vector<T>& vec);
+template<typename T>void reverse_print_vector(const vector<T>& vec);
 
 void main()
 {
@@ -104,8 +109,6 @@ void main()
 	vector<double> vec2;
 	cout << "ѕустой вектор занимает: " << sizeof(vec2) << " Ѕайт" << endl;*/
 
-
-
 #ifdef VECTOR_SWAP
 	vector<int> vec1 = { 3,5,8,13,21 };
 	vector<int> vec2 = { 34,55,89 };
@@ -115,6 +118,21 @@ void main()
 	print_vector(vec1);
 	print_vector(vec2);
 #endif // VECTOR_SWAP
+
+#ifdef STL_VECTOR_ERASE
+	vector<int> vec = { 3, 5, 8, 13, 21, 34, 55 };
+	print_vector(vec);
+	reverse_print_vector(vec);
+	/*int index;	cout << "¬ведите индекс удал€емого элемента: "; cin >> index;
+	vector<int>::iterator position = vec.begin() + index;
+	vec.erase(vec.begin() + index);*/
+	int index_start, index_end;
+	cout << "¬ведите начало удал€емого диапазона: "; cin >> index_start;
+	cout << "¬ведите конец удал€емого диапазона: "; cin >> index_end;
+	vec.erase(vec.begin() + index_start, vec.begin() + index_end);
+	print_vector(vec);
+	vector_properties(vec);
+#endif // STL_VECTOR_ERASE
 
 }
 
@@ -127,5 +145,18 @@ template<typename T>void vector_properties(const vector<T>& vec)
 
 template<typename T>void print_vector(const vector<T>& vec)
 {
-	for (int i : vec)cout << i << tab; cout << endl;
+	cout << typeid(vec.begin()).name() << endl;
+	//for (int i : vec)cout << i << tab; cout << endl;
+	for (vector<int>::const_iterator it = vec.begin(); it != vec.end(); it++)
+	{
+		cout << *it << tab;
+	}
+	cout << endl;
+}
+
+template<typename T>void reverse_print_vector(const vector<T>& vec)
+{
+	for (vector<int>::const_reverse_iterator it = vec.rbegin(); it != vec.rend(); it++)
+		cout << *it << tab;
+	cout << endl;
 }
