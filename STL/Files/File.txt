@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>map::find - C++ Reference</title>
+<link rel="canonical" href="https://www.cplusplus.com/reference/map/map/find/">
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<link rel="stylesheet" type="text/css" href="/v322/main.css">
+<script src="/v322/main.js" type="text/javascript"></script>
+<script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+<script>
+  window.googletag = window.googletag || {cmd: []};
+  googletag.cmd.push(function() {
+    googletag.defineSlot('/147246189/cplusplus.com_728x90_leaderboard_1', [728, 90], 'div-gpt-ad-1593433023017-0').addService(googletag.pubads());
+    googletag.defineSlot('/147246189/cplusplus.com_234x120_sidebar_1', [234, 60], 'cplusplus.com_234x120_sidebar_1').addService(googletag.pubads());
+    googletag.pubads().enableSingleRequest();
+    googletag.pubads().disableInitialLoad();
+    googletag.enableServices();
+  });
+</script>
+<script src="https://cloud.setupad.com/hb/cpluspluscom.js" async></script>
+<script src="https://c.aaxads.com/aax.js?pub=AAX5H4CNQ&hst=www.cplusplus.com&ver=1.2" async></script></head>
+<body>
+<div id="I_top">
+<div id="I_header">
+<div id="I_logo"><a href="/" title="cplusplus.com"><div></div></a></div>
+<div id="I_search">
+<form id="search" action="/search.do" method="get">
+Search: <input name="q" size="20" class="txt"> <input type="submit" value="Go" class="btn">
+</form>
+</div>
+<div id="I_bar">
+<ul>
+<li><a href="/reference/">Reference</a></li>
+<li><a href="/reference/map/">&lt;map&gt;</a></li>
+<li><a href="/reference/map/map/">map</a></li>
+<li class="here">find</li>
+</ul>
+</div>
+<div id="I_user" class="C_LoginBox"><span title="ajax"></span></div>
+</div>
+</div>
+<div id="I_mid">
+<div id="I_wrap">
+<div id="I_minheight"></div>
+<div id="I_main">
+<div class="C_support">
+<div id='div-gpt-ad-1593433023017-0' style='width: 728px; height: 90px;'>
+  <script>
+    googletag.cmd.push(function() { googletag.display('div-gpt-ad-1593433023017-0'); });
+  </script>
+</div>
+</div><div id="I_content">
+<div class="C_doc">
+<div id="I_type">public member function</div>
+<div id="I_file">&lt;map&gt;</div>
+<h1><span class="namespace" title="namespace std">std::</span><a href="/reference/map/map/">map</a>::find</h1>
+<div class="C_prototype"><pre>      iterator find (const key_type&amp; k);const_iterator find (const key_type&amp; k) const;</pre></div><div id="I_description">Get iterator to element</div>
+<section id="description">
+Searches the container for an element with a <i>key</i> equivalent to <i>k</i> and returns an iterator to it if found, otherwise it returns an iterator to <a href="/map::end">map::end</a>.<br>
+<br>
+Two <i>keys</i> are considered equivalent if the container's <a href="/map::key_comp">comparison object</a> returns <tt>false</tt> reflexively (i.e., no matter the order in which the elements are passed as arguments).<br>
+<br>
+Another member function, <a href="/map::count">map::count</a>, can be used to just check whether a particular key exists.<br>
+</section>
+<br>
+<section id="parameters">
+<h3>Parameters</h3>
+<dl>
+<dt>k</dt>
+<dd>Key to be searched for.<br>
+Member type <tt>key_type</tt> is the type of the keys for the elements in the container, defined in <a href="/map">map</a> as an alias of its first template parameter (<tt>Key</tt>).</dd>
+</dl>
+</section>
+<br>
+<section id="return">
+<h3>Return value</h3>
+An iterator to the element, if an element with specified key is found, or <a href="/map::end">map::end</a> otherwise.<br>
+<br>
+If the <a href="/map">map</a> object is const-qualified, the function returns a <tt>const_iterator</tt>. Otherwise, it returns an <tt>iterator</tt>.<br>
+<br>
+Member types <tt>iterator</tt> and <tt>const_iterator</tt> are <a href="/BidirectionalIterator">bidirectional iterator</a> types pointing to elements (of type <tt>value_type</tt>).<br>
+Notice that <tt>value_type</tt> in <a href="/map">map</a> containers is an alias of <tt><a href="/pair">pair</a>&lt;const key_type, mapped_type&gt;</tt>.<br>
+</section>
+<br>
+<section id="example">
+<h3>Example</h3>
+<div class="auto"><table class="snippet"><tr><td class="rownum"><pre><code>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br></code></pre></td>
+<td class="source"><pre><code><cite>// map::find</cite>
+<dfn>#include &lt;iostream&gt;</dfn>
+<dfn>#include &lt;map&gt;</dfn>
+
+<var>int</var> main ()
+{
+  std::map&lt;<var>char</var>,<var>int</var>&gt; mymap;
+  std::map&lt;<var>char</var>,<var>int</var>&gt;::iterator it;
+
+  mymap[<kbd>'a'</kbd>]=50;
+  mymap[<kbd>'b'</kbd>]=100;
+  mymap[<kbd>'c'</kbd>]=150;
+  mymap[<kbd>'d'</kbd>]=200;
+
+  it = mymap.find(<kbd>'b'</kbd>);
+  <var>if</var> (it != mymap.end())
+    mymap.erase (it);
+
+  <cite>// print content:</cite>
+  std::cout &lt;&lt; <kbd>"elements in mymap:"</kbd> &lt;&lt; <kbd>'\n'</kbd>;
+  std::cout &lt;&lt; <kbd>"a =&gt; "</kbd> &lt;&lt; mymap.find(<kbd>'a'</kbd>)-&gt;second &lt;&lt; <kbd>'\n'</kbd>;
+  std::cout &lt;&lt; <kbd>"c =&gt; "</kbd> &lt;&lt; mymap.find(<kbd>'c'</kbd>)-&gt;second &lt;&lt; <kbd>'\n'</kbd>;
+  std::cout &lt;&lt; <kbd>"d =&gt; "</kbd> &lt;&lt; mymap.find(<kbd>'d'</kbd>)-&gt;second &lt;&lt; <kbd>'\n'</kbd>;
+
+  <var>return</var> 0;
+}</code></pre></td><td class="C_btnholder"></td></tr></table></div>
+<br>
+<br>
+Output:<br>
+<div class="auto"><table class="snippet"><tr><td class="output"><pre><samp>elements in mymap:
+a =&gt; 50
+c =&gt; 150
+d =&gt; 200
+</samp></pre></td></tr></table></div>
+</section>
+<br>
+<section id="complexity">
+<h3>Complexity</h3>
+Logarithmic in <a href="/map::size">size</a>.<br>
+</section>
+<br>
+<section id="validity">
+<h3>Iterator validity</h3>
+No changes.<br>

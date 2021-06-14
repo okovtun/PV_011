@@ -13,9 +13,12 @@ TOREAD:
 http://cplusplus.com/reference/stl/
 
 TODO:
+Решить последнюю задачу (на Бинарное дерево): https://github.com/okovtun/PV_011/blob/master/STL/Task/DZ_ST_C%2B%2B_05.pdf
+
+DONE:
 1. Вызвать метод erase() для Вектора;		DONE
 2. Написать функцию reverse_print_vector(), которая выводит вектор в обратном направлении; DONE
-3. Создать объект list, и вставить в него значение по указанному индексу: 
+3. Создать объект list, и вставить в него значение по указанному индексу: DONE
    http://cplusplus.com/reference/list/list/;
 
 ////////////////////////////////////////////////////////////////////////////
