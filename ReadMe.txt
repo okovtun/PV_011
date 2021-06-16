@@ -2,6 +2,7 @@
 https://www.youtube.com/watch?v=zMb82o-Ii-A&list=PLeqyOOqxeiIMwmLcO3eRNlHpInInqbfv1&index=1
 
 TOREAD:
+http://cplusplus.com/reference/regex/		Regular expressions
 http://cplusplus.com/doc/tutorial/classes2/	MoveMethods
 http://cplusplus.com/doc/tutorial/classes/	UNIFORM INITIALIZATION
 
@@ -13,6 +14,7 @@ TODO:
 1. В файле https://github.com/okovtun/PV_011/blob/master/STL/Files/Task/201%20RAW.txt 
    поменять местами столбики с IP-адресом и MAC-адресом;
 2. Из тогоже файла сделать файл вида:
+   https://github.com/okovtun/PV_011/blob/master/STL/Files/Task/201.dhcpd
 
 ////////////////////////////////////////////////////////////////////////////
 ///////////////						STL						////////////////
