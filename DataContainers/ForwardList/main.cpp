@@ -92,7 +92,10 @@ public:
 	{
 		return Temp->Data;
 	}
-
+	int operator^(const Iterator& other)
+	{
+		return 2 ^ 2;
+	}
 	const Element* operator->()const
 	{
 		return Temp;
