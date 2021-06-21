@@ -1,6 +1,15 @@
 ﻿https://github.com/okovtun/PV_011.git
 https://www.youtube.com/watch?v=zMb82o-Ii-A&list=PLeqyOOqxeiIMwmLcO3eRNlHpInInqbfv1&index=1
 
+////////////////////////////////////////////////////////////////////////////
+///////////////					  UML						////////////////
+////////////////////////////////////////////////////////////////////////////
+1. Установить программу: https://www.visual-paradigm.com/download/community.jsp
+2. Ознакомиться с задачей: https://www.codewars.com/kata/578b4f9b7c77f535fc00002f
+3. Нарисовать задачу в прогрмме;
+4. По нарисованной диаграмме написать C++ код;
+5. Прислать ссылку на репозиторий с диагрммой и кодом.
+
 TOREAD:
 http://cplusplus.com/reference/regex/		Regular expressions
 http://cplusplus.com/doc/tutorial/classes2/	MoveMethods
