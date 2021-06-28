@@ -20,9 +20,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{FB97713E-6021-4C3A-B459-BBA86728293E}</ProjectGuid>
+    <ProjectGuid>{B3E42EBC-FBC8-4C99-B787-2E27AE534771}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>UML</RootNamespace>
+    <RootNamespace>Car</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -143,7 +143,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
