@@ -8,6 +8,10 @@ https://www.youtube.com/watch?v=zMb82o-Ii-A&list=PLeqyOOqxeiIMwmLcO3eRNlHpInInqb
 https://www.yworks.com/products/yed
 
 TODO:
+1. В классе Car индикатор LOW FUEL подсветить красным цветом;
+2. По нажатии на клавишу s машина должна тормозить;
+
+DONE:
 1. В класс Car добавить метод control(), который позволит управлять машиной;
 2. В методе control() обеспечить запуск и остановку двигателя;
 3. При запуске и холостом ходе двигателя обеспечить минимальный расход топлива;
