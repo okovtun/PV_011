@@ -10,6 +10,7 @@ https://www.yworks.com/products/yed
 TODO:
 1. В классе Car индикатор LOW FUEL подсветить красным цветом;
 2. По нажатии на клавишу s машина должна тормозить;
+https://github.com/okovtun/PS_VS_PU_35/blob/driving/Car/Car/main.cpp
 
 DONE:
 1. В класс Car добавить метод control(), который позволит управлять машиной;

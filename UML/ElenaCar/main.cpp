@@ -1,24 +1,28 @@
-#include<iostream>
+﻿#include <iostream>
 #include<conio.h>
 #include<thread>
+#include<exception>
+#include<windows.h>
 using namespace std;
 
-#define Escape	27
-#define Enter	13
+#define Escape 27
+#define Enter 13
 
 const unsigned int DEFAULT_TANK_VOLUME = 60;
 const unsigned int MIN_FUEL_LEVEL = 5;
-const unsigned int DEFAULT_ENGINE_CONSUMPTION = 8;
+const unsigned int DEFAULT_CONSUMPTION = 8;
 
 class Tank
 {
-	const unsigned int VOLUME;
+	const unsigned int volume;
 	double fuel_level;
 	unsigned int min_level;
+	unsigned int max_level;
+
 public:
 	unsigned int get_volume()const
 	{
-		return VOLUME;
+		return volume;
 	}
 	double get_fuel_level()const
 	{
@@ -31,25 +35,21 @@ public:
 	void set_fuel_level(double fuel)
 	{
 		if (fuel < 0)return;
-		if (this->fuel_level + fuel < VOLUME)
+		if (this->fuel_level + fuel < volume)
 			fuel_level += fuel;
 		else
-			fuel_level = VOLUME;
+			fuel_level = volume;
 	}
-	explicit Tank(int volume) :VOLUME(volume >= 40 && volume <= 120 ? volume : DEFAULT_TANK_VOLUME)
+	explicit Tank(int volume) :volume(volume >= 40 && volume <= 120 ? volume : DEFAULT_TANK_VOLUME)
 	{
 		/*if (volume >= 40 && volume <= 120)
 			this->volume = volume;
 		else
 			this->volume = 60;*/
-			//this->VOLUME = volume >= 40 && volume <= 120 ? volume : DEFAULT_TANK_VOLUME;
+			//this->volume = volume >= 40 && volume <= 120 ? volume : DEFAULT_TANK_VOLUME;
 		fuel_level = 0;
 		min_level = MIN_FUEL_LEVEL;
 		cout << "TankReady:\t" << this << endl;
-	}
-	~Tank()
-	{
-		cout << "TankIsOver:\t" << this << endl;
 	}
 	double give_fuel(double amount)
 	{
@@ -57,10 +57,14 @@ public:
 		if (fuel_level < 0)fuel_level = 0;
 		return fuel_level;
 	}
+	~Tank()
+	{
+		cout << "TankIsOver:\t" << this << endl;
+	}
 	void info()const
 	{
-		cout << "Volume:\t" << VOLUME << endl;
-		cout << "Fuel:\t";
+		cout << "Volume: " << volume << endl;
+		cout << "Fuel: \t";
 		if (fuel_level < 10)cout << 0;
 		cout << fuel_level << endl;
 		cout << "MinFuel:";
@@ -74,11 +78,12 @@ class Engine
 	//Engine properties:
 	unsigned int volume;
 	unsigned int power;
-	double consumption;	//liters per 100 km
-	double consumption_per_second;	//liters per second
+	double consumption;					//ðàñõîä ëèòðîâ íà 100 êì
+	double consumption_per_second;		//ðàñõîä ëèòðîâ â ñåêóíäó
 
 	//Engine state:
 	bool started;
+
 public:
 	double get_consumption()const
 	{
@@ -90,12 +95,12 @@ public:
 	}
 	explicit Engine(double consumption)
 	{
-		/*if (consumption >= 4 && consumption <= 25)
-			this->consumption = consumption;
-		else
-			consumption = 8;*/
-		this->consumption = consumption >= 4 && consumption <= 25 ? consumption : DEFAULT_ENGINE_CONSUMPTION;
-		this->consumption_per_second = consumption * 5e-5; //consumption * 5*10^-4
+		/*	if (consumption >= 4 && consumption <= 25)
+				this->consumption = consumption;
+			else
+				consumption = 8;*/
+		this->consumption = consumption >= 4 && consumption <= 25 ? consumption : DEFAULT_CONSUMPTION;
+		this->consumption_per_second = consumption * 5e-5;	//consumption * 5*10^-4
 		started = false;
 		cout << "EngineReady:\t" << this << endl;
 	}
@@ -119,7 +124,7 @@ public:
 	void info()const
 	{
 		cout << "Consumption:\t\t" << consumption << endl;
-		cout << "ConsumptionPerSec:\t" << consumption_per_second << endl;
+		cout << "ConsumptionPerSecond:\t" << consumption_per_second << endl;
 	}
 };
 
@@ -127,11 +132,12 @@ class Car
 {
 	Engine engine;
 	Tank tank;
-	const unsigned int MAX_SPEED;
+	const unsigned int max_speed;
 	unsigned int speed;
 	bool driver_inside;
 	bool gas_pedal;
 	unsigned int acceleration;
+	unsigned int brake;
 
 	struct Control
 	{
@@ -139,33 +145,34 @@ class Car
 		std::thread panel_thread;
 		std::thread engine_idle_thread;
 		std::thread free_wheeling_thread;
-	}control;	//control - ��� ��������� ��������� Control.
+	}control;								//control - ýêçåìïëÿð (îáúåêò) ñòðóêòóðû 'Control'
+
 public:
 	/*Car(const Engine& engine, const Tank& tank) :engine(engine), tank(tank)
 	{
 		cout << "CarIsReady:\t" << this << endl;
 	}*/
-	Car(double consumption, unsigned int volume, const unsigned int MAX_SPEED) :
-		engine(consumption), tank(volume), MAX_SPEED(MAX_SPEED >= 90 && MAX_SPEED <= 400 ? MAX_SPEED : 250), speed(0)
+	Car(double consumption, unsigned int volume, const unsigned int max_speed) :
+		engine(consumption), tank(volume), max_speed(max_speed >= 90 && max_speed <= 400 ? max_speed : 250), speed(0)
 	{
 		//this->engine = consumption;
-		//this->MAX_SPEED = MAX_SPEED;
+		//this->max_speed;
 		driver_inside = false;
 		gas_pedal = false;
 		acceleration = 5;
-		control.main_thread = std::thread(&Car::control_car, this);	//��������� ����� control_car � ������ main_thread.
+		control.main_thread = std::thread(&Car::control_car, this);	//çàïóñêàåì ìåòîä control_car â ïîòîêå main_thread 
 		cout << "CarIsReady:\t" << this << endl;
 	}
 	~Car()
 	{
-		//if (control.engine_idle_thread.joinable())control.engine_idle_thread.join();
+		if (control.engine_idle_thread.joinable())control.engine_idle_thread.join();
 		if (control.main_thread.joinable())control.main_thread.join();
 		cout << "CarIsOver:\t" << this << endl;
 	}
-
 	void get_in()
 	{
 		driver_inside = true;
+		cout << "Âû íàõîäèòåñü â àâòî!" << endl;
 		control.panel_thread = std::thread(&Car::panel, this);
 	}
 	void get_out()
@@ -173,15 +180,12 @@ public:
 		driver_inside = false;
 		if (control.panel_thread.joinable())control.panel_thread.join();
 		system("CLS");
-		cout << "You are out of car" << endl;
+		cout << "Âû âûøëè èç àâòî!" << endl;
 	}
-
-
 	void fill(unsigned int fuel)
 	{
 		tank.set_fuel_level(fuel);
 	}
-
 	void start()
 	{
 		if (driver_inside && tank.get_fuel_level() > 0)
@@ -204,105 +208,144 @@ public:
 	}
 	void panel()const
 	{
-		using namespace std::literals::chrono_literals;
+		using namespace std::chrono_literals;
 		while (driver_inside)
 		{
 			system("CLS");
-			cout << "Engine is " << (engine.is_started() ? "started" : "stopped") << endl;
+			cout << "Engine is: " << (engine.is_started() ? "started" : "stopped") << endl;
 			cout << "Fuel level:\t" << tank.get_fuel_level() << "\t";
-			if (tank.get_fuel_level() < tank.get_min_level()) cout << "LOW FUEL";
-			cout << endl;
-			cout << "Speed:    " << speed << "\t";
-			cout << "MaxSpeed: " << MAX_SPEED << endl;
-			std::this_thread::sleep_for(0.5s);
+			if (tank.get_fuel_level() < tank.get_min_level())
+			{
+				HANDLE red = GetStdHandle(STD_OUTPUT_HANDLE);
+				SetConsoleTextAttribute(red, FOREGROUND_RED);
+				cout << "Low fuel" << endl;
+				HANDLE white = GetStdHandle(STD_OUTPUT_HANDLE);
+				SetConsoleTextAttribute(white, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+			}
+			cout << "Speed:   " << speed << "\t";
+			cout << "Max speed: " << max_speed << endl;
+			std::this_thread::sleep_for(1s);
 		}
 	}
 	void control_car()
 	{
-		//cout << "You are inside" << endl;
+
 		using namespace std::literals::chrono_literals;
 		char key;
 		do
 		{
+
 			key = _getch();
 			switch (key)
 			{
 			case 'F':
-			case 'f':
+			case 'f':						//fuel
 				unsigned int fuel;
-				cout << "������� ����� �������: "; cin >> fuel; cout << endl;
+				cout << "Ââåäèòå îáúåì òîïëèâà: "; cin >> fuel; cout << endl;
 				fill(fuel);
 				break;
-			case 'I'://ignition - ���������.
-			case 'i':if (driver_inside)
-			{
-				if (!engine.is_started())start();
-				else stop();
-			}
-			break;
-			case 'W':
-			case 'w':
+			case 'I':
+			case 'i':						//ignition (çàæèãàíèå)
+				if (driver_inside)
+				{
+					if (!engine.is_started())start();
+					else stop();
+				}
+				break;
+			case'W':
+			case'w':
 				if (driver_inside && engine.is_started())
 				{
-					//accellerate();
-					speed += 5;
+					accellerate();
+				}
+				break;
+			case'S':
+			case's':
+				if (driver_inside && engine.is_started())
+				{
+					braking();
 				}
 				break;
 			case Enter:
 				if (driver_inside)get_out();
-				else get_in(); break;
+				else get_in();
+				break;
 			case Escape:
-				if (control.free_wheeling_thread.joinable())control.free_wheeling_thread.join();
 				stop();
 				get_out();
-				cout << "Hasta La'vista baby" << endl; break;
+				cout << "Hasta La Vista, Baby!" << endl; break;
 			}
-			//if (driver_inside)panel();
-			std::this_thread::sleep_for(0.1s);
+			//	if (driver_inside)panel();
+			std::this_thread::sleep_for(0.5s);
 			if (speed > 0 && !control.free_wheeling_thread.joinable())control.free_wheeling_thread = std::thread(&Car::free_wheeling, this);
 			else if (control.free_wheeling_thread.joinable())control.free_wheeling_thread.join();
 		} while (key != Escape);
 	}
-
-	/*void accellerate()
+	void accellerate()
 	{
 		speed += acceleration;
 		using namespace std::literals::chrono_literals;
-		std::this_thread::sleep_for(0.1s);
-	}*/
+		std::this_thread::sleep_for(1s);
+		//if(engine.get_consumption_per_second())
+	}
+
+	void braking()
+	{
+		if (acceleration >= 0)
+		{
+			speed -= acceleration;
+			using namespace std::literals::chrono_literals;
+			std::this_thread::sleep_for(1s);
+		}
+		else stop();
+	}
 	void free_wheeling()
 	{
 		using namespace std::literals::chrono_literals;
-		while (speed)
+		if (acceleration)
 		{
-			speed--;
-			std::this_thread::sleep_for(1s);
+			while (acceleration)
+			{
+				//for (speed; speed <= 250; speed++);
+				speed++;
+				std::this_thread::sleep_for(1s);
+			}
+		}
+		else if (brake)
+		{
+			while (brake)
+			{
+				//for (speed; speed > 0; speed--);
+				speed--;
+				std::this_thread::sleep_for(1s);
+			}
 		}
 	}
-
 	void info()const
 	{
 		cout << "Engine:\n"; engine.info();
 		cout << "Tank:\n"; tank.info();
-		cout << "Engine is " << (engine.is_started() ? "started" : "stopped") << endl;
-		cout << "Speed:\t" << speed << "km/h\n";
-		cout << "MaxSpeed:\t" << MAX_SPEED << "km/h\n";
+		cout << "Engine is: " << (engine.is_started() ? "started" : "stopped") << endl;
+		if (tank.get_fuel_level() < tank.get_min_level())
+			cout << "Speed:\t\t" << speed << "km/h\n";
+		cout << "MaxSpeed:\t" << max_speed << "km/h\n";
 	}
 };
 
 //#define TANK_CHECK
 //#define ENGINE_CHECK
 
-void main()
+
+int main()
 {
 	setlocale(LC_ALL, "");
 #ifdef TANK_CHECK
-	Tank tank(35);
+	Tank tank(-35);
 	tank.info();
-	cout << "\n-----------------------------\n";
+	cout << "-----------------" << endl;
 	tank.set_fuel_level(30);
 	tank.info();
-	cout << "\n-----------------------------\n";
+	cout << "-----------------" << endl;
 	tank.set_fuel_level(40);
 	tank.info();
 #endif // TANK_CHECK
@@ -312,12 +355,17 @@ void main()
 	engine.info();
 #endif // ENGINE_CHECK
 
-	//Car car(Engine(10), Tank(80));
-	Car car(10, 50, 250);
-	//car.info();
+	try
+	{
+		Car car(10, 50, 250);
+		//car.info();
 
-	cout << "Press Enter to get in" << endl;
-	cout << "Press F to to fill the car" << endl;
-
+		cout << "Íàæìèòå 'Enter', ÷òîáû ñåñòü â àâòî" << endl;
+		cout << "Íàæìèòå 'F', ÷òîáû çàïðàâèòü àâòî" << endl;
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
 
 }
